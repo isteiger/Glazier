@@ -12,9 +12,17 @@
             <RowDefinition Height="32"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border x:Name="AppTitleBar" Grid.Column="1" VerticalAlignment="Top">
-            <TextBlock x:Name="AppTitle" Text="{StaticResource AppTitleName}" VerticalAlignment="Top" Margin="0,8,0,0" />
-        </Border>
+        <Grid x:Name="AppTitleBar">
+            <Image Source="Images/WindowIcon.png"
+           HorizontalAlignment="Left" 
+           Width="16" Height="16" 
+           Margin="8,0"/>
+            <TextBlock x:Name="AppTitleTextBlock" Text="Glazier"
+               TextWrapping="NoWrap"
+               Style="{StaticResource CaptionTextBlockStyle}" 
+               VerticalAlignment="Center"
+               Margin="28,0,0,0"/>
+        </Grid>
 
 
         <NavigationView Grid.Row="1">
@@ -23,10 +31,9 @@
                 <StackPanel Margin="20" Spacing="10">
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Current backdrop: " />
-                        <TextBlock x:Name="tbCurrentBackdrop" />
+                        <TextBlock Text="BALLS " />
                     </StackPanel>
-                    <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
+                    <Button x:Name="myButton" Click="myButton_Click">click me zaddy</Button>
                     <TextBlock x:Name="tbChangeStatus" />
                 </StackPanel>
             </StackPanel>

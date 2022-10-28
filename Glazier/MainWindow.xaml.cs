@@ -29,8 +29,8 @@ public sealed partial class MainWindow : Window
     public MainWindow() {
 
         this.InitializeComponent();
-        /*ExtendsContentIntoTitleBar = true;
-        SetTitleBar(AppTitleBar);*/
+      ExtendsContentIntoTitleBar = true;
+        SetTitleBar(AppTitleBar);
     }
 
     private void myButton_Click(object sender, RoutedEventArgs e) {
