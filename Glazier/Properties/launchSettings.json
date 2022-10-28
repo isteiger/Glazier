@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Glazier (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Glazier (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
