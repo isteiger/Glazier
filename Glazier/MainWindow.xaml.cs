@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -27,13 +29,71 @@ public sealed partial class MainWindow : Window
 {
 
     public MainWindow() {
-
         this.InitializeComponent();
+
       ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
+   
+
+    }
+    private void NavigationView_SelectionChanged(
+    NavigationView sender,
+    NavigationViewSelectionChangedEventArgs args)
+    {
+        SetCurrentNavigationViewItem(args.SelectedItemContainer as NavigationViewItem);
+    }
+    public void SetCurrentNavigationViewItem(
+    NavigationViewItem item)
+    {
+        if (item == null) {
+            return;
+        }
+
+        if (item.Tag == null) {
+            return;
+        }
+
+        if (item.Tag.ToString() == "Settings") {
+            ContentFrame.Navigate(Type.GetType("Glazier.Settings"),item.Content);
+        } else {
+            ContentFrame.Navigate(Type.GetType(item.Tag.ToString()), item.Content);
+        }
+
+        NavigationView.Header = item.Content;
+        NavigationView.SelectedItem = item;
+    }
+    private void NavigationView_Loaded( object sender, RoutedEventArgs e) {
+        // Navigates, but does not update the Menu.
+        // ContentFrame.Navigate(typeof(HomePage));
+
+        SetCurrentNavigationViewItem(GetNavigationViewItems(typeof(Computers)).First());
+    }
+    public List<NavigationViewItem> GetNavigationViewItems() {
+        var result = new List<NavigationViewItem>();
+        var items = NavigationView.MenuItems.Select(i => (NavigationViewItem)i).ToList();
+        items.AddRange(NavigationView.FooterMenuItems.Select(i => (NavigationViewItem)i));
+        result.AddRange(items);
+
+        foreach (NavigationViewItem mainItem in items) {
+            result.AddRange(mainItem.MenuItems.Select(i => (NavigationViewItem)i));
+        }
+
+        return result;
     }
 
-    private void myButton_Click(object sender, RoutedEventArgs e) {
-        myButton.Content = "Clicked";
+    public List<NavigationViewItem> GetNavigationViewItems(Type type) {
+        return GetNavigationViewItems().Where(i => i.Tag.ToString() == type.FullName).ToList();
     }
+
+    public List<NavigationViewItem> GetNavigationViewItems(
+        Type type,
+        string title)
+    {
+        return GetNavigationViewItems(type).Where(ni => ni.Content.ToString() == title).ToList();
+    }
+    public NavigationViewItem GetCurrentNavigationViewItem()
+    {
+        return NavigationView.SelectedItem as NavigationViewItem;
+    }
+
 }

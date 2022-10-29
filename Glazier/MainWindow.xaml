@@ -9,14 +9,14 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
+            <RowDefinition Height="48"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid x:Name="AppTitleBar">
             <Image Source="Images/WindowIcon.png"
            HorizontalAlignment="Left" 
            Width="16" Height="16" 
-           Margin="8,0"/>
+           Margin="8,0" />
             <TextBlock x:Name="AppTitleTextBlock" Text="Glazier"
                TextWrapping="NoWrap"
                Style="{StaticResource CaptionTextBlockStyle}" 
@@ -25,18 +25,15 @@
         </Grid>
 
 
-        <NavigationView Grid.Row="1">
-            <StackPanel>
+        <NavigationView x:Name="NavigationView"
+                Loaded="NavigationView_Loaded"
+                SelectionChanged="NavigationView_SelectionChanged" Grid.Row="1" AlwaysShowHeader="False" >
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="Home" Content="Computers" Tag="Glazier.Computers" />
+            </NavigationView.MenuItems>
 
-                <StackPanel Margin="20" Spacing="10">
+            <Frame x:Name="ContentFrame"/>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="BALLS " />
-                    </StackPanel>
-                    <Button x:Name="myButton" Click="myButton_Click">click me zaddy</Button>
-                    <TextBlock x:Name="tbChangeStatus" />
-                </StackPanel>
-            </StackPanel>
         </NavigationView>
     </Grid>
 </Window>
