@@ -27,7 +27,9 @@
 
         <NavigationView x:Name="NavigationView"
                 Loaded="NavigationView_Loaded"
-                SelectionChanged="NavigationView_SelectionChanged" Grid.Row="1" AlwaysShowHeader="False" >
+                SelectionChanged="NavigationView_SelectionChanged" Grid.Row="1" AlwaysShowHeader="False"     IsBackButtonVisible="Auto"
+    IsBackEnabled="True"
+>
             <NavigationView.MenuItems>
                 <NavigationViewItem Icon="Home" Content="Computers" Tag="Glazier.Computers" />
             </NavigationView.MenuItems>
