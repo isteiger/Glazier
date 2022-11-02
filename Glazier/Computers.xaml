@@ -11,7 +11,29 @@
     <Grid>
         <StackPanel >
             <StackPanel Margin="20" Spacing="10">
-
+                <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
+                    <CommandBar.Content>
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontWeight="Bold" Text="Computers" VerticalAlignment="Center"/>
+                        </Grid>
+                    </CommandBar.Content>
+                    <AppBarButton Icon="Add" Label="Add PC"/>
+                    <AppBarButton Icon="Edit"/>
+                    <AppBarButton Icon="Share" Label="Share"/>
+                    <CommandBar.SecondaryCommands>
+                        <AppBarButton Icon="Setting" Label="Settings">
+                            <AppBarButton.KeyboardAccelerators>
+                                <KeyboardAccelerator Modifiers="Control" Key="I" />
+                            </AppBarButton.KeyboardAccelerators>
+                        </AppBarButton>
+                    </CommandBar.SecondaryCommands>
+                </CommandBar>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="hello worl" />
                 </StackPanel>
