@@ -20,9 +20,9 @@ namespace Glazier;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class BlankPage1 : Page
+public sealed partial class AddPCDialog : Page
 {
-    public BlankPage1()
+    public AddPCDialog()
     {
         this.InitializeComponent();
     }

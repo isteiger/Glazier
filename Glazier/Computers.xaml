@@ -9,7 +9,7 @@
     >
 
     <Grid>
-        <StackPanel >
+        <StackPanel>
             <StackPanel Margin="20" Spacing="10">
                 <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
                     <CommandBar.Content>
@@ -23,7 +23,7 @@
                             <TextBlock FontWeight="Bold" Text="Computers" VerticalAlignment="Center"/>
                         </Grid>
                     </CommandBar.Content>
-                    <AppBarButton Icon="Add" Label="Add PC"/>
+                    <AppBarButton Click="AddPC_Click" Icon="Add" Label="Add PC"/>
                     <AppBarButton Icon="Edit"/>
                     <AppBarButton Icon="Share" Label="Share"/>
                     <CommandBar.SecondaryCommands>
@@ -34,12 +34,19 @@
                         </AppBarButton>
                     </CommandBar.SecondaryCommands>
                 </CommandBar>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="hello worl" />
-                </StackPanel>
-                <Button x:Name="myButton" Click="myButton_Click">click me</Button>
-                <TextBlock x:Name="tbChangeStatus" />
             </StackPanel>
         </StackPanel>
+
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE977;" FontSize="100"/>
+            <TextBlock Text="Open a Glazier File" TextAlignment="Center" FontSize="50" FontWeight="Medium"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Open Existing" Style="{StaticResource AccentButtonStyle}" Margin="0,0,10,0" x:Name="openButton" Click="OpenFileButton"/>
+                <Button Content="Create New"/>
+            </StackPanel>
+            <TextBlock Text="Opened File:" TextAlignment="Center" FontWeight="Medium" x:Name="fileNameText"/>
+
+        </StackPanel>
     </Grid>
+
 </Page>

@@ -135,5 +135,5 @@ public partial class App : Application
             _backdropConfiguration.IsInputActive = args.WindowActivationState is not WindowActivationState.Deactivated;
         }
     }
-    private Window m_window;
+    public Window m_window;
 }

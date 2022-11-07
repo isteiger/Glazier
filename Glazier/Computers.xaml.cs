@@ -12,6 +12,8 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage.Pickers;
+using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -26,8 +28,39 @@ public sealed partial class Computers : Page
     {
         this.InitializeComponent();
     }
-    private void myButton_Click(object sender, RoutedEventArgs e)
+    private async void AddPC_Click(object sender, RoutedEventArgs e)
     {
-        myButton.Content = "Clicked";
+        ContentDialog dialog = new ContentDialog();
+
+        // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+        dialog.XamlRoot = this.XamlRoot;
+        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+        dialog.Title = "Add a Computer";
+        dialog.PrimaryButtonText = "Add";
+        dialog.CloseButtonText = "Cancel";
+        dialog.DefaultButton = ContentDialogButton.Primary;
+        dialog.Content = new AddPCDialog();
+
+        var result = await dialog.ShowAsync();
     }
+    private async void OpenFileButton(object sender, RoutedEventArgs e)
+    {
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window); //get main window
+        var filePicker = new Windows.Storage.Pickers.FileOpenPicker();
+        filePicker.FileTypeFilter.Add(".json");
+        filePicker.FileTypeFilter.Add(".glaz");
+        WinRT.Interop.InitializeWithWindow.Initialize(filePicker, hwnd);
+        var file = await filePicker.PickSingleFileAsync();
+        if (file != null)
+        {
+            // Application now has read/write access to the picked file
+            fileNameText.Text = "Opened File: " + file.Name;
+        }
+        else
+        {
+            fileNameText.Text = "Operation cancelled.";
+        }
+
+    }
+
 }

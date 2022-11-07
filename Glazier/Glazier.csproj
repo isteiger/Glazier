@@ -12,7 +12,7 @@
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="BlankPage1.xaml" />
+    <None Remove="AddPCDialog.xaml" />
     <None Remove="Computers.xaml" />
     <None Remove="Settings.xaml" />
   </ItemGroup>
@@ -45,7 +45,7 @@
     <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="BlankPage1.xaml">
+    <Page Update="AddPCDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

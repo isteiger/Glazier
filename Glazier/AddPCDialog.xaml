@@ -1,0 +1,16 @@
+﻿<Page
+    x:Class="Glazier.AddPCDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <!-- Content body -->
+        <TextBlock Text="Lorem ipsum dolor sit amet, adipisicing elit." TextWrapping="Wrap" />
+        <TextBox Header="Display Name" PlaceholderText="Display Name" />
+        <TextBox Header="Hostname" PlaceholderText="Hostname" />
+        <TextBox Header="Username" PlaceholderText="Username" />
+        <TextBox Header="Password" PlaceholderText="Password" />
+        <TextBox Header="MAC Address" PlaceholderText="MAC Address" />
+    </StackPanel>
+
+</Page>
