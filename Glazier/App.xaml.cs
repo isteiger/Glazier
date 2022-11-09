@@ -46,7 +46,6 @@ public partial class App : Application
     /// <param name="args">Details about the launch request and process.</param>
     protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
-        m_window = new MainWindow();
         m_window.Activate();
         var mica = new MicaBackground(m_window);
         mica.TrySetMicaBackdrop();
@@ -135,5 +134,5 @@ public partial class App : Application
             _backdropConfiguration.IsInputActive = args.WindowActivationState is not WindowActivationState.Deactivated;
         }
     }
-    public Window m_window;
+    public static Window m_window = new MainWindow();
 }

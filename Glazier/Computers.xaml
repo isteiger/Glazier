@@ -11,7 +11,7 @@
     <Grid>
         <StackPanel>
             <StackPanel Margin="20" Spacing="10">
-                <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
+                <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" Padding="12">
                     <CommandBar.Content>
                         <Grid >
                             <Grid.RowDefinitions>
@@ -36,7 +36,9 @@
                 </CommandBar>
             </StackPanel>
         </StackPanel>
-
+        
+        
+        
         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE977;" FontSize="100"/>
             <TextBlock Text="Open a Glazier File" TextAlignment="Center" FontSize="50" FontWeight="Medium"/>
@@ -45,8 +47,44 @@
                 <Button Content="Create New"/>
             </StackPanel>
             <TextBlock Text="Opened File:" TextAlignment="Center" FontWeight="Medium" x:Name="fileNameText"/>
-
+            
+            
+            
+            
+            <CommandBar  IsOpen="False" DefaultLabelPosition="Right" BorderThickness="1" 
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="8">
+                <CommandBar.Content>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock FontWeight="Bold" Text="Computers" VerticalAlignment="Center"/>
+                    </Grid>
+                </CommandBar.Content>
+                <AppBarButton Icon="Edit"/>
+                <AppBarButton Icon="Share" Label="Share"/>
+                <CommandBar.SecondaryCommands>
+                    <AppBarButton Icon="Setting" Label="Settings">
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers="Control" Key="I" />
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                </CommandBar.SecondaryCommands>
+            </CommandBar>
+            <Grid Width="240" Height="120"                     CornerRadius="8"
+                    Padding="12"
+                    BorderThickness="1"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                <Rectangle Fill="Red"/>
+            </Grid>
         </StackPanel>
+
+
     </Grid>
 
 </Page>

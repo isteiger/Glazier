@@ -45,7 +45,7 @@ public sealed partial class Computers : Page
     }
     private async void OpenFileButton(object sender, RoutedEventArgs e)
     {
-        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window); //get main window
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.m_window); //get main window
         var filePicker = new Windows.Storage.Pickers.FileOpenPicker();
         filePicker.FileTypeFilter.Add(".json");
         filePicker.FileTypeFilter.Add(".glaz");
