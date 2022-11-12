@@ -89,7 +89,8 @@
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
                 <Viewbox Grid.Column="0">
@@ -101,6 +102,13 @@
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <TextBlock Text="StonePC1" Style="{StaticResource BaseTextBlockStyle}"/>
                     <TextBlock Text="StonePC1\Stone 2318" Style="{StaticResource CaptionTextBlockStyle}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="2">
+                    <AppBarButton  Label="Specs"  >
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE964;"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
                 </StackPanel>
             </Grid>
 
