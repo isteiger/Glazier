@@ -23,7 +23,11 @@
                             <TextBlock FontWeight="Bold" Text="Computers" VerticalAlignment="Center"/>
                         </Grid>
                     </CommandBar.Content>
-                    <AppBarButton Click="AddPC_Click" Icon="Add" Label="Add PC"/>
+                    <AppBarButton Click="AddPC_Click" Label="Add PC">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE836;"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
                     <AppBarButton Icon="Edit"/>
                     <AppBarButton Icon="Share" Label="Share"/>
                     <CommandBar.SecondaryCommands>
@@ -107,6 +111,11 @@
                     <AppBarButton  Label="Specs"  >
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE964;"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton  Label="Remote Desktop"  >
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8af;"/>
                         </AppBarButton.Icon>
                     </AppBarButton>
                 </StackPanel>
