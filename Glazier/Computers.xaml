@@ -28,8 +28,11 @@
                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE836;"/>
                         </AppBarButton.Icon>
                     </AppBarButton>
-                    <AppBarButton Icon="Edit"/>
-                    <AppBarButton Icon="Share" Label="Share"/>
+                    <AppBarButton Click="AddPC_Click" Label="Deploy">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xECAA;"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>                    <AppBarButton Icon="Share" Label="Share"/>
                     <CommandBar.SecondaryCommands>
                         <AppBarButton Icon="Setting" Label="Settings">
                             <AppBarButton.KeyboardAccelerators>
@@ -86,6 +89,38 @@
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8af;"/>
                         </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Label="Power">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE7E8;"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="Sleep" Tag="sleep">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE708;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Shut down" Tag="shutDown">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE7E8;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Restart" Tag="restart">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE777;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                    <AppBarButton Icon="More" Label="More">
+                        <AppBarButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="Edit" Tag="edit"/>
+                                <MenuFlyoutItem Text="Windows Update" Tag="winUpdate"/>
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
                     </AppBarButton>
                 </StackPanel>
             </Grid>
