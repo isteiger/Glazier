@@ -53,8 +53,7 @@
             <TextBlock Text="Opened File:" TextAlignment="Center" FontWeight="Medium" x:Name="fileNameText"/>
 
 
-            <Grid Width="1000" Height="80"                     CornerRadius="8"
- 
+            <Grid Width="1000" Height="80" CornerRadius="8"
                     BorderThickness="1"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
