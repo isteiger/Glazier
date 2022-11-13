@@ -57,8 +57,8 @@
             
             <CommandBar  IsOpen="False" DefaultLabelPosition="Right" BorderThickness="1" 
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="8" MinHeight="200">
-                <CommandBar.Content>
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="8" Height="200">
+                <CommandBar.Content Height="200">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -66,18 +66,16 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Viewbox>
-                            <Border BorderThickness="5" BorderBrush="black" CornerRadius="8">
+                        <Border BorderThickness="5" BorderBrush="black" CornerRadius="8">
 
-                                <Image Height = "40" Source = "Images\background.jpg" 
+                            <Image Height = "40" Source = "Images\background.jpg" 
             VerticalAlignment = "Top" />
-                            </Border>
-                        </Viewbox>
+                        </Border>
                     </Grid>
                 </CommandBar.Content>
-                <AppBarButton Icon="Edit"/>
-                <AppBarButton Icon="Share" Label="Share"/>
-                <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="Edit" IsCompact="True" Height="200"/>
+                <AppBarButton Icon="Share" Label="Share" Height="200"/>
+                <CommandBar.SecondaryCommands >
                     <AppBarButton Icon="Setting" Label="Settings">
                         <AppBarButton.KeyboardAccelerators>
                             <KeyboardAccelerator Modifiers="Control" Key="I" />
@@ -87,33 +85,37 @@
             </CommandBar>
 
 
-            <Grid Width="1000" Height="100"                     CornerRadius="8"
+            <Grid Width="1000" Height="80"                     CornerRadius="8"
  
                     BorderThickness="1"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Viewbox Grid.Column="0">
-                    <Border BorderThickness="5" BorderBrush="black" CornerRadius="8">
-
-                        <Image Height = "75" Source = "Images\background.jpg"  VerticalAlignment="Center"/>
-                    </Border>
-                </Viewbox>
-                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <TextBlock Text="StonePC1" Style="{StaticResource BaseTextBlockStyle}"/>
-                    <TextBlock Text="StonePC1\Stone 2318" Style="{StaticResource CaptionTextBlockStyle}"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Grid.Column="2">
+                <Grid Grid.Column="0" Margin="10,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center">
+                        <Border BorderThickness="5" BorderBrush="black" CornerRadius="8">
+                            <Image Height = "50" Source = "Images\background.jpg"  VerticalAlignment="Center"/>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="StonePC1" Style="{StaticResource BaseTextBlockStyle}"/>
+                        <TextBlock Text="StonePC1\Stone 2318" Style="{StaticResource CaptionTextBlockStyle}"/>
+                    </StackPanel>
+                </Grid>
+                <StackPanel Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,10,0">
                     <AppBarButton  Label="Specs"  >
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE964;"/>
                         </AppBarButton.Icon>
                     </AppBarButton>
-                    <AppBarButton  Label="Remote Desktop"  >
+                    <AppBarButton  Label="Remote">
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8af;"/>
                         </AppBarButton.Icon>
