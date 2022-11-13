@@ -51,38 +51,6 @@
                 <Button Content="Create New"/>
             </StackPanel>
             <TextBlock Text="Opened File:" TextAlignment="Center" FontWeight="Medium" x:Name="fileNameText"/>
-            
-            
-            
-            
-            <CommandBar  IsOpen="False" DefaultLabelPosition="Right" BorderThickness="1" 
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="8" Height="200">
-                <CommandBar.Content Height="200">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Border BorderThickness="5" BorderBrush="black" CornerRadius="8">
-
-                            <Image Height = "40" Source = "Images\background.jpg" 
-            VerticalAlignment = "Top" />
-                        </Border>
-                    </Grid>
-                </CommandBar.Content>
-                <AppBarButton Icon="Edit" IsCompact="True" Height="200"/>
-                <AppBarButton Icon="Share" Label="Share" Height="200"/>
-                <CommandBar.SecondaryCommands >
-                    <AppBarButton Icon="Setting" Label="Settings">
-                        <AppBarButton.KeyboardAccelerators>
-                            <KeyboardAccelerator Modifiers="Control" Key="I" />
-                        </AppBarButton.KeyboardAccelerators>
-                    </AppBarButton>
-                </CommandBar.SecondaryCommands>
-            </CommandBar>
 
 
             <Grid Width="1000" Height="80"                     CornerRadius="8"
