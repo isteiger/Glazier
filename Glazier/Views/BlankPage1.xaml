@@ -17,7 +17,6 @@
 
                 <DataTemplate x:DataType="data:Computer">
                     <!-- Begin actual element-->
-
                     <Grid Width="1000" Height="80" CornerRadius="8"
                     BorderThickness="1"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"

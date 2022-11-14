@@ -17,6 +17,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System.Collections.ObjectModel;
 using Glazier.Models;
+using Newtonsoft.Json;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -37,9 +38,15 @@ public sealed partial class BlankPage1 : Page {
                 Password = "JoeBidenBalls",
             MacAddress = "asfsdfsdfad"
         };
-        computersList = new ObservableCollection<Computer>();
-        computersList.Add(pcUno);
-        computersList.Add(pcUno);
+        computersList = new ObservableCollection<Computer>{
+            pcUno,
+            pcUno
+        };
+        //String json = File.ReadAllText(@"/Properties/computers.json");
+        //JsonTextReader reader = new JsonTextReader(new StringReader(json));
+        //System.Diagnostics.Debug.WriteLine(json);
+
+
     }
 
 }

@@ -1,0 +1,9 @@
+{
+    "computers": [{
+        "displayName": "2318 Test VM 1",
+        "hostname": "DESKTOP-2S652M3",
+        "username": "Stone 2318",
+        "password": "2318",
+        "mac": "00:0C:29:F8:DC:B9"
+    }]
+}

@@ -14,6 +14,8 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage.Pickers;
 using Windows.Storage;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -22,14 +24,13 @@ namespace Glazier;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class Computers : Page
-{
-    public Computers()
-    {
+public sealed partial class Computers : Page {
+
+    public Computers() {
         this.InitializeComponent();
     }
-    private async void AddPC_Click(object sender, RoutedEventArgs e)
-    {
+
+    private async void AddPC_Click(object sender, RoutedEventArgs e) {
         ContentDialog dialog = new ContentDialog();
 
         // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
@@ -43,21 +44,24 @@ public sealed partial class Computers : Page
 
         var result = await dialog.ShowAsync();
     }
-    private async void OpenFileButton(object sender, RoutedEventArgs e)
-    {
+
+    private async void OpenFileButton(object sender, RoutedEventArgs e) {
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.m_window); //get main window
         var filePicker = new Windows.Storage.Pickers.FileOpenPicker();
         filePicker.FileTypeFilter.Add(".json");
         filePicker.FileTypeFilter.Add(".glaz");
         WinRT.Interop.InitializeWithWindow.Initialize(filePicker, hwnd);
         var file = await filePicker.PickSingleFileAsync();
-        if (file != null)
-        {
+
+        if (file != null) {
             // Application now has read/write access to the picked file
             fileNameText.Text = "Opened File: " + file.Name;
+            String json = File.ReadAllText(file.Path);
+            JObject o = JObject.Parse(json);
+            System.Diagnostics.Debug.WriteLine(o["computers"][0]);
+
         }
-        else
-        {
+        else {
             fileNameText.Text = "Operation cancelled.";
         }
 
