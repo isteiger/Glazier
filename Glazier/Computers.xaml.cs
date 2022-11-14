@@ -58,8 +58,9 @@ public sealed partial class Computers : Page {
             fileNameText.Text = "Opened File: " + file.Name;
             String json = File.ReadAllText(file.Path);
             JObject o = JObject.Parse(json);
-            System.Diagnostics.Debug.WriteLine(o["computers"][0]);
-
+            foreach (JToken puter in o["computers"]){
+                System.Diagnostics.Debug.WriteLine(puter["displayName"]);
+            }
         }
         else {
             fileNameText.Text = "Operation cancelled.";
