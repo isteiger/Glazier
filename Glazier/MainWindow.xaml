@@ -32,6 +32,8 @@
 >
             <NavigationView.MenuItems>
                 <NavigationViewItem Icon="Home" Content="Computers" Tag="Glazier.Computers" />
+                <NavigationViewItem Icon="Home" Content="TestPage" Tag="Glazier.Views.BlankPage1" />
+
             </NavigationView.MenuItems>
 
             <Frame x:Name="ContentFrame"/>

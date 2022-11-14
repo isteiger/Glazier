@@ -56,14 +56,14 @@
             <TextBlock Text="Opened File:" TextAlignment="Center" FontWeight="Medium" x:Name="fileNameText"/>
 
 
-            <Grid Width="1000" Height="80" CornerRadius="8"
+            <!--<Grid Width="1000" Height="80" CornerRadius="8"
                     BorderThickness="1"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitions> 
                 <Grid Grid.Column="0" Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -75,14 +75,17 @@
                         </Border>
                     </StackPanel>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="StonePC1" Style="{StaticResource BaseTextBlockStyle}"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" FontSize="10" Glyph="&#xF127;" VerticalAlignment="Center" Foreground="LightGreen" Margin="5,0,5,0"/>
+                            <TextBlock Text="StonePC1" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center"/>
+                        </StackPanel>
                         <TextBlock Text="StonePC1\Stone 2318" Style="{StaticResource CaptionTextBlockStyle}"/>
                     </StackPanel>
                 </Grid>
                 <StackPanel Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,10,0">
                     <AppBarButton  Label="Specs"  >
                         <AppBarButton.Icon>
-                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE964;"/>
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE950;"/>
                         </AppBarButton.Icon>
                     </AppBarButton>
                     <AppBarButton  Label="Remote">
@@ -117,13 +120,19 @@
                     <AppBarButton Icon="More" Label="More">
                         <AppBarButton.Flyout>
                             <MenuFlyout>
-                                <MenuFlyoutItem Text="Edit" Tag="edit"/>
-                                <MenuFlyoutItem Text="Windows Update" Tag="winUpdate"/>
+                                <MenuFlyoutItem Icon="Edit" Text="Edit" Tag="edit"/>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem Text="Applications" Tag="Applications">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xECAA;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Icon="Sync" Text="Windows Update" Tag="winUpdate"/>
                             </MenuFlyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>
                 </StackPanel>
-            </Grid>
+            </Grid>-->
 
         </StackPanel>
 
