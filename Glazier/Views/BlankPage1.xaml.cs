@@ -31,7 +31,7 @@ public sealed partial class BlankPage1 : Page {
     public ObservableCollection<Computer> computersList { get; set; }
     public BlankPage1() {
         this.InitializeComponent();
-        Computer pcUno = new Computer {
+        /*Computer pcUno = new Computer {
             DisplayName = "ActualPC",
             HostName = "gamingpc",
             UserName = "isteiger",
@@ -41,7 +41,7 @@ public sealed partial class BlankPage1 : Page {
         computersList = new ObservableCollection<Computer>{
             pcUno,
             pcUno
-        };
+        };*/
         //String json = File.ReadAllText(@"/Properties/computers.json");
         //JsonTextReader reader = new JsonTextReader(new StringReader(json));
         //System.Diagnostics.Debug.WriteLine(json);

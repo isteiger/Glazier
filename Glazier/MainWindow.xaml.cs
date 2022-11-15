@@ -30,8 +30,8 @@ public sealed partial class MainWindow : Window
 
     public MainWindow() {
         this.InitializeComponent();
-
-      ExtendsContentIntoTitleBar = true;
+        this.Title = "Glazier";
+        ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
    
 

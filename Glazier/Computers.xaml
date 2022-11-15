@@ -6,11 +6,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:data="using:Glazier.Models"
+    
     >
 
     <Grid>
-        <StackPanel>
-            <StackPanel Margin="20" Spacing="10">
+        
+        <StackPanel Orientation="Vertical">
+            <StackPanel Margin="16" Spacing="10">
                 <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" Padding="12">
                     <CommandBar.Content>
                         <Grid >
@@ -32,7 +35,7 @@
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xECAA;"/>
                         </AppBarButton.Icon>
-                    </AppBarButton>                    <AppBarButton Icon="Share" Label="Share"/>
+                    </AppBarButton>           
                     <CommandBar.SecondaryCommands>
                         <AppBarButton Icon="Setting" Label="Settings">
                             <AppBarButton.KeyboardAccelerators>
@@ -42,18 +45,116 @@
                     </CommandBar.SecondaryCommands>
                 </CommandBar>
             </StackPanel>
+            
+            <ListView ItemsSource="{x:Bind computersList}" SelectionMode="None" x:Name="daGridView">
+                <ListView.ItemTemplate>
+
+                    <DataTemplate x:DataType="data:Computer">
+                        <!-- Begin actual element-->
+                        <Grid HorizontalAlignment="Stretch" Height="80" CornerRadius="8"
+                    BorderThickness="1"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"  Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0" Margin="10,0,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center">
+                                    <Border BorderThickness="5" BorderBrush="black" CornerRadius="8">
+                                        <Image Height = "50" Source="/Images/background.jpg"  VerticalAlignment="Center"/>
+                                    </Border>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" FontSize="10" Glyph="&#xF127;" VerticalAlignment="Center" Foreground="LightGreen" Margin="5,0,5,0"/>
+                                        <TextBlock Text="{x:Bind DisplayName}" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}">
+                                    <Run Text="{x:Bind HostName}"/><Run Text="\"/><Run Text="{x:Bind UserName}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+                            <StackPanel Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,10,0">
+                                <AppBarButton  Label="Specs"  >
+                                    <AppBarButton.Icon>
+                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE950;"/>
+                                    </AppBarButton.Icon>
+                                </AppBarButton>
+                                <AppBarButton  Label="Remote">
+                                    <AppBarButton.Icon>
+                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8af;"/>
+                                    </AppBarButton.Icon>
+                                </AppBarButton>
+                                <AppBarButton Label="Power">
+                                    <AppBarButton.Icon>
+                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE7E8;"/>
+                                    </AppBarButton.Icon>
+                                    <AppBarButton.Flyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem Text="Sleep" Tag="sleep">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE708;"/>
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem Text="Shut down" Tag="shutDown">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE7E8;"/>
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem Text="Restart" Tag="restart">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE777;"/>
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </AppBarButton.Flyout>
+                                </AppBarButton>
+                                <AppBarButton Icon="More" Label="More">
+                                    <AppBarButton.Flyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem Icon="Edit" Text="Edit" Tag="edit"/>
+                                            <MenuFlyoutSeparator/>
+                                            <MenuFlyoutItem Text="Applications" Tag="Applications">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xECAA;"/>
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem Icon="Sync" Text="Windows Update" Tag="winUpdate"/>
+                                        </MenuFlyout>
+                                    </AppBarButton.Flyout>
+                                </AppBarButton>
+                            </StackPanel>
+                        </Grid>
+                        <!-- End actual element-->
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackPanel>
         
         
         
-        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" x:Name="StartPanel">
             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE977;" FontSize="100"/>
             <TextBlock Text="Open a Glazier File" TextAlignment="Center" FontSize="50" FontWeight="Medium"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,10">
                 <Button Content="Open Existing" Style="{StaticResource AccentButtonStyle}" Margin="0,0,10,0" x:Name="openButton" Click="OpenFileButton"/>
                 <Button Content="Create New"/>
             </StackPanel>
-            <TextBlock Text="Opened File:" TextAlignment="Center" FontWeight="Medium" x:Name="fileNameText"/>
+            <StackPanel Width="600" Height="200" CornerRadius="8"
+                    BorderThickness="1"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"  Margin="0,0,0,12">
+                <TextBlock FontWeight="Bold" Text="Recent Files" VerticalAlignment="Center" Margin="10,10,0,10"/>
+                <MenuFlyoutSeparator/>
+
+            </StackPanel>
+
 
         </StackPanel>
 

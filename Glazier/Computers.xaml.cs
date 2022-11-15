@@ -16,6 +16,8 @@ using Windows.Storage.Pickers;
 using Windows.Storage;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Glazier.Models;
+using System.Collections.ObjectModel;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -25,9 +27,14 @@ namespace Glazier;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 public sealed partial class Computers : Page {
-
+    public ObservableCollection<Computer> computersList
+    {
+        get; set;
+    }
+    public string ComputersJSONFile;
     public Computers() {
         this.InitializeComponent();
+        computersList = new ObservableCollection<Computer>{};
     }
 
     private async void AddPC_Click(object sender, RoutedEventArgs e) {
@@ -46,6 +53,7 @@ public sealed partial class Computers : Page {
     }
 
     private async void OpenFileButton(object sender, RoutedEventArgs e) {
+
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.m_window); //get main window
         var filePicker = new Windows.Storage.Pickers.FileOpenPicker();
         filePicker.FileTypeFilter.Add(".json");
@@ -55,15 +63,29 @@ public sealed partial class Computers : Page {
 
         if (file != null) {
             // Application now has read/write access to the picked file
-            fileNameText.Text = "Opened File: " + file.Name;
+            ComputersJSONFile = file;
             String json = File.ReadAllText(file.Path);
             JObject o = JObject.Parse(json);
             foreach (JToken puter in o["computers"]){
-                System.Diagnostics.Debug.WriteLine(puter["displayName"]);
-            }
-        }
-        else {
-            fileNameText.Text = "Operation cancelled.";
+                Computer pc = new Computer
+                {
+                    DisplayName = (string)puter["displayName"],
+                    HostName = (string)puter["hostname"],
+                    UserName = (string)puter["username"],
+                    Password = (string)puter["password"],
+                    MacAddress = (string)puter["mac"],
+                    Online = false
+                };
+                /*System.Diagnostics.Debug.WriteLine(puter["displayName"]);
+                Ping ping = new Ping();
+                PingReply pingReply = ping.Send(pc.HostName);
+
+                if (pingReply.Status == IPStatus.Success) {
+                    pc.Online = true;
+                } */
+                computersList.Add(pc);
+            };
+            StartPanel.Visibility = (Visibility)1;
         }
 
     }

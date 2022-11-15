@@ -28,4 +28,8 @@ public class Computer
     {
         get; set;
     }
+    public Boolean Online
+    {
+        get; set;
+    }
 }
