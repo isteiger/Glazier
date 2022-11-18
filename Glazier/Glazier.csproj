@@ -34,11 +34,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221116.1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-    <Manifest Include="$(ApplicationManifest)" />
+	  <PackageReference Include="WinUIEx" Version="1.8.0" />
+	  <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+	  <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
   <!-- 

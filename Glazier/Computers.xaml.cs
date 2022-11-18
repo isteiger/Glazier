@@ -60,7 +60,13 @@ public sealed partial class Computers : Page
         {
             // Application now has read/write access to the picked file
             ComputersJSONFile = file.Path;
-            Bitmap defaultBmp = new Bitmap("Z:\\Documents\\Glazier.nosync\\Glazier\\Images\\background.jpg");
+            var tempfilePicker = new Windows.Storage.Pickers.FileOpenPicker();
+            tempfilePicker.FileTypeFilter.Add(".jpg");
+            WinRT.Interop.InitializeWithWindow.Initialize(tempfilePicker, hwnd);
+
+            var testfile = await tempfilePicker.PickSingleFileAsync();
+
+            Bitmap defaultBmp = new Bitmap(testfile.Path);
             String json = File.ReadAllText(file.Path);
             JObject o = JObject.Parse(json);
             foreach (JToken puter in o["computers"])
@@ -83,15 +89,15 @@ public sealed partial class Computers : Page
                 if (pingReply.Status == IPStatus.Success) {
                     pc.Online = true;
                 } */
-                Boolean isOnline = false;
+                Boolean isOnline = true;
                 if (isOnline == true)
                 {
                     pc.Online = true;
                     pc.IconColor = "LightGreen";
+                } else {
+                    var bmp = MakeGrayscale3(defaultBmp);
+                    pc.Background = BitmapToBitmapImage(bmp);
                 }
-
-                var bmp = MakeGrayscale3(defaultBmp);
-                pc.Background = BitmapToBitmapImage(bmp);
                 computersList.Add(pc);
             };
             StartPanel.Visibility = Visibility.Collapsed;
