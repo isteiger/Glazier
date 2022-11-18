@@ -9,6 +9,7 @@ using System.Drawing;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Threading.Tasks;
 using System.Drawing.Imaging;
+using System.Net.NetworkInformation;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -60,13 +61,7 @@ public sealed partial class Computers : Page
         {
             // Application now has read/write access to the picked file
             ComputersJSONFile = file.Path;
-            var tempfilePicker = new Windows.Storage.Pickers.FileOpenPicker();
-            tempfilePicker.FileTypeFilter.Add(".jpg");
-            WinRT.Interop.InitializeWithWindow.Initialize(tempfilePicker, hwnd);
-
-            var testfile = await tempfilePicker.PickSingleFileAsync();
-
-            Bitmap defaultBmp = new Bitmap(testfile.Path);
+            Bitmap defaultBmp = new Bitmap("C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg");
             String json = File.ReadAllText(file.Path);
             JObject o = JObject.Parse(json);
             foreach (JToken puter in o["computers"])
@@ -82,17 +77,14 @@ public sealed partial class Computers : Page
                     IconColor = "Gray",
                     Background = BitmapToBitmapImage(defaultBmp)
                 };
-                /*System.Diagnostics.Debug.WriteLine(puter["displayName"]);
-                Ping ping = new Ping();
+               /* Ping ping = new Ping();
                 PingReply pingReply = ping.Send(pc.HostName);
 
                 if (pingReply.Status == IPStatus.Success) {
                     pc.Online = true;
-                } */
-                Boolean isOnline = true;
-                if (isOnline == true)
+                }*/
+                if (pc.Online)
                 {
-                    pc.Online = true;
                     pc.IconColor = "LightGreen";
                 } else {
                     var bmp = MakeGrayscale3(defaultBmp);
