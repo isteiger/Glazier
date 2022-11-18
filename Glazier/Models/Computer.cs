@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Media.Imaging;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,4 +34,6 @@ public class Computer
     {
         get; set;
     }
+    public BitmapImage Background {get; set;}
+    public string IconColor { get; set; }
 }

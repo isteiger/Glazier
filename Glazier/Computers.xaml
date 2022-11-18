@@ -67,12 +67,12 @@
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center">
                                     <Border BorderThickness="5" BorderBrush="black" CornerRadius="8">
-                                        <Image Height = "50" Source="/Images/background.jpg"  VerticalAlignment="Center"/>
+                                        <Image Height = "50" Source="{x:Bind Background}"  VerticalAlignment="Center"/>
                                     </Border>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" FontSize="10" Glyph="&#xF127;" VerticalAlignment="Center" Foreground="LightGreen" Margin="5,0,5,0"/>
+                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" FontSize="10" Glyph="&#xF127;" VerticalAlignment="Center" Foreground="{x:Bind IconColor}" Margin="5,0,5,0"></FontIcon>
                                         <TextBlock Text="{x:Bind DisplayName}" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <TextBlock Style="{StaticResource CaptionTextBlockStyle}">
