@@ -10,6 +10,9 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Threading.Tasks;
 using System.Drawing.Imaging;
 using System.Net.NetworkInformation;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Streams;
+using Windows.Storage;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -34,7 +37,7 @@ public sealed partial class Computers : Page
 
     private async void AddPC_Click(object sender, RoutedEventArgs e)
     {
-        ContentDialog dialog = new ContentDialog();
+        var dialog = new ContentDialog();
 
         // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
         dialog.XamlRoot = this.XamlRoot;
@@ -61,13 +64,11 @@ public sealed partial class Computers : Page
         {
             // Application now has read/write access to the picked file
             ComputersJSONFile = file.Path;
-            Bitmap defaultBmp = new Bitmap("C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg");
-            String json = File.ReadAllText(file.Path);
-            JObject o = JObject.Parse(json);
-            foreach (JToken puter in o["computers"])
-            {
-                Computer pc = new Computer
-                {
+            var defaultBmp = new Bitmap("C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg");
+            var json = File.ReadAllText(file.Path);
+            var o = JObject.Parse(json);
+            foreach (var puter in o["computers"]) {
+                var pc = new Computer {
                     DisplayName = (string)puter["displayName"],
                     HostName = (string)puter["hostname"],
                     UserName = (string)puter["username"],
@@ -75,20 +76,62 @@ public sealed partial class Computers : Page
                     MacAddress = (string)puter["mac"],
                     Online = false,
                     IconColor = "Gray",
+                    Uuid = (string)puter["uuid"],
                     Background = BitmapToBitmapImage(defaultBmp)
                 };
-               /* Ping ping = new Ping();
-                PingReply pingReply = ping.Send(pc.HostName);
+                Task.Run(() => OnlineCheck(pc, defaultBmp));
 
-                if (pingReply.Status == IPStatus.Success) {
-                    pc.Online = true;
-                }*/
-                if (pc.Online)
-                {
-                    pc.IconColor = "LightGreen";
+
+                void OnlineCheck(Computer pc, Bitmap defaultBmp) {
+                    // use ping to check if online. if ping fails, it errors out which is why this is in a try catch
+                    try {
+                        Ping ping = new Ping();
+                        PingReply pingReply = ping.Send(pc.HostName);
+                        // if succeed, set online
+                        if (pingReply.Status == IPStatus.Success) {
+                            pc.Online = true;
+                        }
+                    } catch {
+                        // errored out, so must be offline
+                        pc.Online = false;
+                    }
+                    // set parameters for online & offline 
+                    if (pc.Online)
+                    {
+                        System.Diagnostics.Debug.WriteLine("pc online");
+                        var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\Color\\" + pc.Uuid + ".jpg";
+                        if (File.Exists(imgPath))
+                        {
+                            pc.Background = new BitmapImage(new Uri(imgPath));
+                        }
+                        pc.IconColor = "LightGreen";
+                    } else {
+                        System.Diagnostics.Debug.WriteLine("pc offline");
+
+                        var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\BW\\" + pc.Uuid + ".jpg";
+                        if (File.Exists(imgPath))
+                        {
+                            pc.Background = new BitmapImage(new Uri(imgPath));
+                        }
+                        else
+                        {
+                            var bmp = MakeGrayscale3(defaultBmp);
+                            pc.Background = BitmapToBitmapImage(bmp);
+                            using var stream = File.Create(imgPath);
+                            bmp.Save(stream, ImageFormat.Jpeg);
+                        }
+                    }
+                }
+
+                // assume the pc is offline
+                var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\BW\\" + pc.Uuid + ".jpg";
+                if (File.Exists(imgPath)) {
+                    pc.Background = new BitmapImage(new Uri(imgPath));
                 } else {
                     var bmp = MakeGrayscale3(defaultBmp);
                     pc.Background = BitmapToBitmapImage(bmp);
+                    using var stream = File.Create(imgPath);
+                    bmp.Save(stream, ImageFormat.Jpeg);
                 }
                 computersList.Add(pc);
             };
@@ -99,8 +142,8 @@ public sealed partial class Computers : Page
     }
     private BitmapImage BitmapToBitmapImage(Bitmap bmp)
     {
-        BitmapImage bitmapImage = new BitmapImage();
-        using (MemoryStream stream = new MemoryStream())
+        var bitmapImage = new BitmapImage();
+        using (var stream = new MemoryStream())
         {
             bmp.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
             stream.Position = 0;
@@ -111,14 +154,14 @@ public sealed partial class Computers : Page
     public static Bitmap MakeGrayscale3(Bitmap original)
     {
         //create a blank bitmap the same size as original
-        Bitmap newBitmap = new Bitmap(original.Width, original.Height);
+        var newBitmap = new Bitmap(original.Width, original.Height);
 
         //get a graphics object from the new image
-        using (Graphics g = Graphics.FromImage(newBitmap))
+        using (var g = Graphics.FromImage(newBitmap))
         {
 
             //create the grayscale ColorMatrix
-            ColorMatrix colorMatrix = new ColorMatrix(
+            var colorMatrix = new ColorMatrix(
                new float[][]
                {
              new float[] {.3f, .3f, .3f, 0, 0},
@@ -129,18 +172,63 @@ public sealed partial class Computers : Page
                });
 
             //create some image attributes
-            using (ImageAttributes attributes = new ImageAttributes())
-            {
+            using var attributes = new ImageAttributes();
 
-                //set the color matrix attribute
-                attributes.SetColorMatrix(colorMatrix);
+            //set the color matrix attribute
+            attributes.SetColorMatrix(colorMatrix);
 
-                //draw the original image on the new image
-                //using the grayscale color matrix
-                g.DrawImage(original, new Rectangle(0, 0, original.Width, original.Height),
-                            0, 0, original.Width, original.Height, GraphicsUnit.Pixel, attributes);
-            }
+            //draw the original image on the new image
+            //using the grayscale color matrix
+            g.DrawImage(original, new Rectangle(0, 0, original.Width, original.Height),
+                        0, 0, original.Width, original.Height, GraphicsUnit.Pixel, attributes);
         }
         return newBitmap;
+    }
+    private async void SaveSoftwareBitmapToFile(SoftwareBitmap softwareBitmap, StorageFile outputFile)
+    {
+        using (var stream = await outputFile.OpenAsync(FileAccessMode.ReadWrite))
+        {
+            // Create an encoder with the desired format
+            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, stream);
+
+            // Set the software bitmap
+            // https://stackoverflow.com/questions/56469760/convert-a-system-drawing-bitmap-to-windows-graphics-imaging-softwarebitmap
+            // https://learn.microsoft.com/en-us/uwp/api/windows.graphics.imaging.bitmapencoder?view=winrt-22621
+            //https://stackoverflow.com/questions/35804375/how-do-i-save-a-bitmapimage-from-memory-into-a-file-in-wpf-c
+            encoder.SetSoftwareBitmap(softwareBitmap);
+
+            // Set additional encoding parameters, if needed
+            encoder.BitmapTransform.ScaledWidth = 320;
+            encoder.BitmapTransform.ScaledHeight = 240;
+            encoder.BitmapTransform.Rotation = Windows.Graphics.Imaging.BitmapRotation.Clockwise90Degrees;
+            encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
+            encoder.IsThumbnailGenerated = true;
+
+            try
+            {
+                await encoder.FlushAsync();
+            }
+            catch (Exception err)
+            {
+                const int WINCODEC_ERR_UNSUPPORTEDOPERATION = unchecked((int)0x88982F81);
+                switch (err.HResult)
+                {
+                    case WINCODEC_ERR_UNSUPPORTEDOPERATION:
+                        // If the encoder does not support writing a thumbnail, then try again
+                        // but disable thumbnail generation.
+                        encoder.IsThumbnailGenerated = false;
+                        break;
+                    default:
+                        throw;
+                }
+            }
+
+            if (encoder.IsThumbnailGenerated == false)
+            {
+                await encoder.FlushAsync();
+            }
+
+
+        }
     }
 }

@@ -14,8 +14,12 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Settings" />
                 </StackPanel>
-                <Button x:Name="myButton">click me</Button>
-                <TextBlock x:Name="tbChangeStatus" />
+                <ComboBox Header="Change online check method" PlaceholderText="Method" Width="200">
+                    <x:String>Ping</x:String>
+                    <x:String>Other1</x:String>
+
+                </ComboBox>
+                <CheckBox Content="Show Computer Backgrounds" />
             </StackPanel>
         </StackPanel>
     </Grid>

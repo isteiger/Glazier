@@ -74,7 +74,7 @@ public sealed partial class MainWindow : Window
         items.AddRange(NavigationView.FooterMenuItems.Select(i => (NavigationViewItem)i));
         result.AddRange(items);
 
-        foreach (NavigationViewItem mainItem in items) {
+        foreach (var mainItem in items) {
             result.AddRange(mainItem.MenuItems.Select(i => (NavigationViewItem)i));
         }
 
