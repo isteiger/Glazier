@@ -9,29 +9,36 @@
 >
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="48"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid x:Name="AppTitleBar">
-            <Image Source="Assets/WindowIcon.png"
+        <Grid x:Name="AppTitleBar" Height="44" Margin="200, 0, 0, 0" VerticalAlignment="Top">
+
+        </Grid>
+       <!-- <Image Source="Assets/WindowIcon.png"
            HorizontalAlignment="Left" 
            Width="16" Height="16" 
            Margin="8,0" />
-            <TextBlock x:Name="AppTitleTextBlock" Text="Glazier"
+        <TextBlock x:Name="AppTitleTextBlock" Text="Glazier"
                TextWrapping="NoWrap"
                Style="{StaticResource CaptionTextBlockStyle}" 
                VerticalAlignment="Center"
-               Margin="28,0,0,0"/>
-        </Grid>
-
+               Margin="28,0,0,0" />-->
 
         <NavigationView x:Name="NavigationView"
                 Loaded="NavigationView_Loaded"
                 SelectionChanged="NavigationView_SelectionChanged" Grid.Row="1" AlwaysShowHeader="False"     IsBackButtonVisible="Auto"
-    IsBackEnabled="True"
->
+                IsBackEnabled="True"
+        >
+            <NavigationView.ContentOverlay>
+                <StackPanel Margin="48, 0, 0, 0" VerticalAlignment="Center" HorizontalAlignment="Left" Height="44" Orientation="Horizontal">
+                    <Image Source="Assets/WindowIcon.png"
+           HorizontalAlignment="Left" 
+           Width="16" Height="16" 
+           Margin="8,0" />
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Glazier" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                </StackPanel>
+                
+            </NavigationView.ContentOverlay>
             <NavigationView.MenuItems>
+                
                 <NavigationViewItem Icon="Home" Content="Computers" Tag="Glazier.Computers" />
                 <NavigationViewItem Icon="Home" Content="TestPage" Tag="Glazier.Views.BlankPage1" />
 

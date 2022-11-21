@@ -10,6 +10,13 @@
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
+	  <!-- This bundles the .NET Core libraries -->
+	  <SelfContained>true</SelfContained>
+	  <!-- This bundles the WinUI3 components -->
+	  <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+	  <Title>Glazier</Title>
+	  <PackageCertificateThumbprint>F739A8F66D05D66D978DD159FA47200A36D4D2EF</PackageCertificateThumbprint>
+	  <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\background.jpg" />

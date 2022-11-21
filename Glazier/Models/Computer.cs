@@ -39,6 +39,10 @@ public class Computer
     {
         get; set;
     }
+    public Boolean Loading
+    {
+        get; set;
+    }
     public ImageSource Background {get; set;}
     public string IconColor { get; set; }
 }

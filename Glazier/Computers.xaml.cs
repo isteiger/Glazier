@@ -13,6 +13,7 @@ using System.Net.NetworkInformation;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.Storage;
+using Newtonsoft.Json;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -53,21 +54,77 @@ public sealed partial class Computers : Page
 
     private async void OpenFileButton(object sender, RoutedEventArgs e)
     {
-
+        
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.m_window); //get main window
         var filePicker = new Windows.Storage.Pickers.FileOpenPicker();
         filePicker.FileTypeFilter.Add(".json");
         filePicker.FileTypeFilter.Add(".glaz");
         WinRT.Interop.InitializeWithWindow.Initialize(filePicker, hwnd);
         var file = await filePicker.PickSingleFileAsync();
-        if (file != null)
-        {
+        if (file != null) {
+            loadingBar.Visibility = Visibility.Visible;
             // Application now has read/write access to the picked file
             ComputersJSONFile = file.Path;
             var defaultBmp = new Bitmap("C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg");
             var json = File.ReadAllText(file.Path);
             var o = JObject.Parse(json);
+            void OnlineCheck(Computer pc, Bitmap defaultBmp) {
+                Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+
+                // use ping to check if online. if ping fails, it errors out which is why this is in a try catch
+                try
+                {
+                    Ping ping = new Ping();
+                    PingReply pingReply = ping.Send(pc.HostName);
+                    
+                    // if succeed, set online
+                    if (pingReply.Status == IPStatus.Success) {
+                        pc.Online = true;
+                    }
+                } catch{
+                    // errored out, so must be offline
+                    pc.Online = false;
+                }
+                
+                // set parameters for online & offline 
+                if (pc.Online) {
+                    System.Diagnostics.Debug.WriteLine("pc online");
+                    var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\Color\\" + pc.Uuid + ".jpg";
+                    if (File.Exists(imgPath)) {
+                        dispatcherQueue.TryEnqueue(() =>
+                        {
+                            pc.Background = new BitmapImage(new Uri(imgPath));
+                        });
+                    } else {
+                        dispatcherQueue.TryEnqueue(() =>
+                        {
+                            pc.Background = new BitmapImage(new Uri("C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg"));
+                        });
+                    }
+                    dispatcherQueue.TryEnqueue(() =>
+                    {
+                        pc.IconColor = "LightGreen";
+                    });
+                } else {
+                    System.Diagnostics.Debug.WriteLine("pc offline");
+
+                    var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\BW\\" + pc.Uuid + ".jpg";
+                    if (File.Exists(imgPath)) {
+                        pc.Background = new BitmapImage(new Uri(imgPath));
+                    } else {
+                        var bmp = MakeGrayscale3(defaultBmp);
+                        pc.Background = BitmapToBitmapImage(bmp);
+                        using var stream = File.Create(imgPath);
+                        bmp.Save(stream, ImageFormat.Jpeg);
+                    }
+                }
+                pc.Loading = false;
+
+            }
+
+            // for each computer in the json file
             foreach (var puter in o["computers"]) {
+
                 var pc = new Computer {
                     DisplayName = (string)puter["displayName"],
                     HostName = (string)puter["hostname"],
@@ -77,51 +134,11 @@ public sealed partial class Computers : Page
                     Online = false,
                     IconColor = "Gray",
                     Uuid = (string)puter["uuid"],
-                    Background = BitmapToBitmapImage(defaultBmp)
+                    Background = BitmapToBitmapImage(defaultBmp),
+                    Loading = true
                 };
-                Task.Run(() => OnlineCheck(pc, defaultBmp));
 
 
-                void OnlineCheck(Computer pc, Bitmap defaultBmp) {
-                    // use ping to check if online. if ping fails, it errors out which is why this is in a try catch
-                    try {
-                        Ping ping = new Ping();
-                        PingReply pingReply = ping.Send(pc.HostName);
-                        // if succeed, set online
-                        if (pingReply.Status == IPStatus.Success) {
-                            pc.Online = true;
-                        }
-                    } catch {
-                        // errored out, so must be offline
-                        pc.Online = false;
-                    }
-                    // set parameters for online & offline 
-                    if (pc.Online)
-                    {
-                        System.Diagnostics.Debug.WriteLine("pc online");
-                        var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\Color\\" + pc.Uuid + ".jpg";
-                        if (File.Exists(imgPath))
-                        {
-                            pc.Background = new BitmapImage(new Uri(imgPath));
-                        }
-                        pc.IconColor = "LightGreen";
-                    } else {
-                        System.Diagnostics.Debug.WriteLine("pc offline");
-
-                        var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\BW\\" + pc.Uuid + ".jpg";
-                        if (File.Exists(imgPath))
-                        {
-                            pc.Background = new BitmapImage(new Uri(imgPath));
-                        }
-                        else
-                        {
-                            var bmp = MakeGrayscale3(defaultBmp);
-                            pc.Background = BitmapToBitmapImage(bmp);
-                            using var stream = File.Create(imgPath);
-                            bmp.Save(stream, ImageFormat.Jpeg);
-                        }
-                    }
-                }
 
                 // assume the pc is offline
                 var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\BW\\" + pc.Uuid + ".jpg";
@@ -134,8 +151,10 @@ public sealed partial class Computers : Page
                     bmp.Save(stream, ImageFormat.Jpeg);
                 }
                 computersList.Add(pc);
+                OnlineCheck(pc, defaultBmp); //todo: multithread this function so it can run in the background and let other cards generate
             };
             StartPanel.Visibility = Visibility.Collapsed;
+            loadingBar.Visibility = Visibility.Collapsed;
 
         }
 
