@@ -14,7 +14,12 @@
         
         <StackPanel Orientation="Vertical">
             <StackPanel Spacing="0" Margin="0,0,0,10">
-                <CommandBar IsOpen="False" DefaultLabelPosition="Right" Padding="28,14,28,0" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <CommandBar IsOpen="False" DefaultLabelPosition="Right" Padding="28,14,28,0" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Grid.Column="0">
                     <CommandBar.Content>
                         <Grid >
                             <Grid.RowDefinitions>
@@ -44,6 +49,8 @@
                         </AppBarButton>
                     </CommandBar.SecondaryCommands>
                 </CommandBar>
+                    <Grid Width="10" />
+                </Grid>
                 <ProgressBar IsIndeterminate="True" ShowPaused="False" ShowError="False" Margin="0,0,0,0" Visibility="Collapsed" x:Name="loadingBar"/>
             </StackPanel>
             
@@ -86,7 +93,7 @@
                                 </StackPanel>
                             </Grid>
                             <StackPanel Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,10,0">
-                                <AppBarButton  Label="Specs"  >
+                                <AppBarButton  Label="Specs" >
                                     <AppBarButton.Icon>
                                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE950;"/>
                                     </AppBarButton.Icon>
@@ -94,6 +101,11 @@
                                 <AppBarButton  Label="Remote">
                                     <AppBarButton.Icon>
                                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8af;"/>
+                                    </AppBarButton.Icon>
+                                </AppBarButton>
+                                <AppBarButton  Label="Power On" Click="PowerOnClick" Tag="{x:Bind MacAddress}">
+                                    <AppBarButton.Icon>
+                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE7E8;"/>
                                     </AppBarButton.Icon>
                                 </AppBarButton>
                                 <AppBarButton Label="Power">

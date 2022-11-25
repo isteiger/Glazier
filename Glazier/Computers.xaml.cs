@@ -14,6 +14,11 @@ using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.Storage;
 using Newtonsoft.Json;
+using Glazier.Modules;
+using System.Security.Cryptography;
+using System.Globalization;
+using System.Net.Sockets;
+using System.Net;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -203,6 +208,40 @@ public sealed partial class Computers : Page
         }
         return newBitmap;
     }
+    void PowerOnClick(object sender, RoutedEventArgs e) {
+        var macaddress = (string)((Button)sender).Tag;
+        UdpClient udpClient = new UdpClient();
+
+        // enable UDP broadcasting for UdpClient
+        udpClient.EnableBroadcast = true;
+
+        var dgram = new byte[1024];
+
+        // 6 magic bytes
+        for (int i = 0; i < 6; i++)
+        {
+            dgram[i] = 255;
+        }
+
+        // convert MAC-address to bytes
+        byte[] address_bytes = new byte[6];
+        for (int i = 0; i < 6; i++)
+        {
+            address_bytes[i] = byte.Parse(macaddress.Substring(3 * i, 2), NumberStyles.HexNumber);
+        }
+
+        // repeat MAC-address 16 times in the datagram
+        var macaddress_block = dgram.AsSpan(6, 16 * 6);
+        for (int i = 0; i < 16; i++)
+        {
+            address_bytes.CopyTo(macaddress_block.Slice(6 * i));
+        }
+
+        // send datagram using UDP and port 0
+        udpClient.Send(dgram, dgram.Length, new System.Net.IPEndPoint(IPAddress.Broadcast, 0));
+        udpClient.Close();
+    }
+
     private async void SaveSoftwareBitmapToFile(SoftwareBitmap softwareBitmap, StorageFile outputFile)
     {
         using (var stream = await outputFile.OpenAsync(FileAccessMode.ReadWrite))
