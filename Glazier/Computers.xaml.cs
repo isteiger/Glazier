@@ -19,6 +19,7 @@ using System.Security.Cryptography;
 using System.Globalization;
 using System.Net.Sockets;
 using System.Net;
+using Microsoft.UI.Dispatching;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -40,6 +41,8 @@ public sealed partial class Computers : Page
         this.InitializeComponent();
         computersList = new ObservableCollection<Computer> { };
     }
+    // get dispatcher for ui thread
+    private DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
     private async void AddPC_Click(object sender, RoutedEventArgs e)
     {
@@ -73,9 +76,11 @@ public sealed partial class Computers : Page
             var defaultBmp = new Bitmap("C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg");
             var json = File.ReadAllText(file.Path);
             var o = JObject.Parse(json);
-            void OnlineCheck(Computer pc, Bitmap defaultBmp) {
-                Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 
+
+
+
+            void OnlineCheck(Computer pc, Bitmap defaultBmp) {
                 // use ping to check if online. if ping fails, it errors out which is why this is in a try catch
                 try
                 {
@@ -96,20 +101,18 @@ public sealed partial class Computers : Page
                     System.Diagnostics.Debug.WriteLine("pc online");
                     var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\Color\\" + pc.Uuid + ".jpg";
                     if (File.Exists(imgPath)) {
-                        dispatcherQueue.TryEnqueue(() =>
-                        {
-                            pc.Background = new BitmapImage(new Uri(imgPath));
-                        });
+                        pc.Background = new BitmapImage(new Uri(imgPath));
                     } else {
-                        dispatcherQueue.TryEnqueue(() =>
+                        BitmapImage bg;
+                        await dispatcherQueue.TryEnqueue(() =>
                         {
-                            pc.Background = new BitmapImage(new Uri("C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg"));
+                            bg = new BitmapImage(new Uri("C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg"));
+
                         });
+                        pc.Background = bg;
+                        //pc.Background = new BitmapImage(new Uri("C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg"));
                     }
-                    dispatcherQueue.TryEnqueue(() =>
-                    {
                         pc.IconColor = "LightGreen";
-                    });
                 } else {
                     System.Diagnostics.Debug.WriteLine("pc offline");
 
@@ -123,7 +126,8 @@ public sealed partial class Computers : Page
                         bmp.Save(stream, ImageFormat.Jpeg);
                     }
                 }
-                pc.Loading = false;
+             
+
 
             }
 
@@ -156,7 +160,8 @@ public sealed partial class Computers : Page
                     bmp.Save(stream, ImageFormat.Jpeg);
                 }
                 computersList.Add(pc);
-                OnlineCheck(pc, defaultBmp); //todo: multithread this function so it can run in the background and let other cards generate
+                Task.Run(() => OnlineCheck(pc, defaultBmp));
+                //OnlineCheck(pc, defaultBmp); //todo: multithread this function so it can run in the background and let other cards generate
             };
             StartPanel.Visibility = Visibility.Collapsed;
             loadingBar.Visibility = Visibility.Collapsed;
@@ -218,22 +223,19 @@ public sealed partial class Computers : Page
         var dgram = new byte[1024];
 
         // 6 magic bytes
-        for (int i = 0; i < 6; i++)
-        {
+        for (int i = 0; i < 6; i++) {
             dgram[i] = 255;
         }
 
         // convert MAC-address to bytes
         byte[] address_bytes = new byte[6];
-        for (int i = 0; i < 6; i++)
-        {
+        for (int i = 0; i < 6; i++) {
             address_bytes[i] = byte.Parse(macaddress.Substring(3 * i, 2), NumberStyles.HexNumber);
         }
 
         // repeat MAC-address 16 times in the datagram
         var macaddress_block = dgram.AsSpan(6, 16 * 6);
-        for (int i = 0; i < 16; i++)
-        {
+        for (int i = 0; i < 16; i++) {
             address_bytes.CopyTo(macaddress_block.Slice(6 * i));
         }
 
@@ -242,51 +244,4 @@ public sealed partial class Computers : Page
         udpClient.Close();
     }
 
-    private async void SaveSoftwareBitmapToFile(SoftwareBitmap softwareBitmap, StorageFile outputFile)
-    {
-        using (var stream = await outputFile.OpenAsync(FileAccessMode.ReadWrite))
-        {
-            // Create an encoder with the desired format
-            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, stream);
-
-            // Set the software bitmap
-            // https://stackoverflow.com/questions/56469760/convert-a-system-drawing-bitmap-to-windows-graphics-imaging-softwarebitmap
-            // https://learn.microsoft.com/en-us/uwp/api/windows.graphics.imaging.bitmapencoder?view=winrt-22621
-            //https://stackoverflow.com/questions/35804375/how-do-i-save-a-bitmapimage-from-memory-into-a-file-in-wpf-c
-            encoder.SetSoftwareBitmap(softwareBitmap);
-
-            // Set additional encoding parameters, if needed
-            encoder.BitmapTransform.ScaledWidth = 320;
-            encoder.BitmapTransform.ScaledHeight = 240;
-            encoder.BitmapTransform.Rotation = Windows.Graphics.Imaging.BitmapRotation.Clockwise90Degrees;
-            encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
-            encoder.IsThumbnailGenerated = true;
-
-            try
-            {
-                await encoder.FlushAsync();
-            }
-            catch (Exception err)
-            {
-                const int WINCODEC_ERR_UNSUPPORTEDOPERATION = unchecked((int)0x88982F81);
-                switch (err.HResult)
-                {
-                    case WINCODEC_ERR_UNSUPPORTEDOPERATION:
-                        // If the encoder does not support writing a thumbnail, then try again
-                        // but disable thumbnail generation.
-                        encoder.IsThumbnailGenerated = false;
-                        break;
-                    default:
-                        throw;
-                }
-            }
-
-            if (encoder.IsThumbnailGenerated == false)
-            {
-                await encoder.FlushAsync();
-            }
-
-
-        }
-    }
 }
