@@ -43,6 +43,6 @@ public class Computer
     {
         get; set;
     }
-    public ImageSource Background {get; set;}
+    public string Background {get; set;}
     public string IconColor { get; set; }
 }

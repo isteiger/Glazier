@@ -40,6 +40,7 @@ public sealed partial class Computers : Page
     {
         this.InitializeComponent();
         computersList = new ObservableCollection<Computer> { };
+        this.DataContext = this;
     }
     // get dispatcher for ui thread
     private DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
@@ -101,32 +102,31 @@ public sealed partial class Computers : Page
                     System.Diagnostics.Debug.WriteLine("pc online");
                     var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\Color\\" + pc.Uuid + ".jpg";
                     if (File.Exists(imgPath)) {
-                        pc.Background = new BitmapImage(new Uri(imgPath));
+                        pc.Background = imgPath;
                     } else {
-                        BitmapImage bg;
-                        await dispatcherQueue.TryEnqueue(() =>
-                        {
-                            bg = new BitmapImage(new Uri("C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg"));
-
-                        });
-                        pc.Background = bg;
+                        pc.Background = "C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg";
                         //pc.Background = new BitmapImage(new Uri("C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg"));
                     }
                         pc.IconColor = "LightGreen";
                 } else {
                     System.Diagnostics.Debug.WriteLine("pc offline");
-
+                    pc.Loading = false;
+                    pc.DisplayName = "testing";
+                    System.Diagnostics.Debug.WriteLine(pc.Loading);
                     var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\BW\\" + pc.Uuid + ".jpg";
                     if (File.Exists(imgPath)) {
-                        pc.Background = new BitmapImage(new Uri(imgPath));
+                        pc.Background = imgPath;
                     } else {
                         var bmp = MakeGrayscale3(defaultBmp);
-                        pc.Background = BitmapToBitmapImage(bmp);
                         using var stream = File.Create(imgPath);
+
                         bmp.Save(stream, ImageFormat.Jpeg);
+                        pc.Background = imgPath;
                     }
+
                 }
-             
+                pc.Loading = false;
+                //dispatcherQueue.TryEnqueue(() => { Bindings.Update(); });
 
 
             }
@@ -143,7 +143,7 @@ public sealed partial class Computers : Page
                     Online = false,
                     IconColor = "Gray",
                     Uuid = (string)puter["uuid"],
-                    Background = BitmapToBitmapImage(defaultBmp),
+                    Background = "C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg",
                     Loading = true
                 };
 
@@ -152,16 +152,15 @@ public sealed partial class Computers : Page
                 // assume the pc is offline
                 var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\BW\\" + pc.Uuid + ".jpg";
                 if (File.Exists(imgPath)) {
-                    pc.Background = new BitmapImage(new Uri(imgPath));
+                    pc.Background = imgPath;
                 } else {
                     var bmp = MakeGrayscale3(defaultBmp);
-                    pc.Background = BitmapToBitmapImage(bmp);
                     using var stream = File.Create(imgPath);
                     bmp.Save(stream, ImageFormat.Jpeg);
+                    pc.Background = imgPath;
                 }
                 computersList.Add(pc);
                 Task.Run(() => OnlineCheck(pc, defaultBmp));
-                //OnlineCheck(pc, defaultBmp); //todo: multithread this function so it can run in the background and let other cards generate
             };
             StartPanel.Visibility = Visibility.Collapsed;
             loadingBar.Visibility = Visibility.Collapsed;
