@@ -20,6 +20,8 @@ using System.Globalization;
 using System.Net.Sockets;
 using System.Net;
 using Microsoft.UI.Dispatching;
+using System.ComponentModel;
+using Microsoft.UI.Xaml.Data;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -35,12 +37,12 @@ public sealed partial class Computers : Page
     {
         get; set;
     }
+    public event PropertyChangedEventHandler PropertyChanged;
     public string ComputersJSONFile;
     public Computers()
     {
         this.InitializeComponent();
         computersList = new ObservableCollection<Computer> { };
-        this.DataContext = this;
     }
     // get dispatcher for ui thread
     private DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
