@@ -81,7 +81,7 @@ public sealed partial class Computers : Page
             var o = JObject.Parse(json);
 
 
-
+            //https://stackoverflow.com/questions/6781192/how-do-i-update-a-single-item-in-an-observablecollection-class
 
             void OnlineCheck(Computer pc, Bitmap defaultBmp) {
                 // use ping to check if online. if ping fails, it errors out which is why this is in a try catch
