@@ -59,8 +59,7 @@ public sealed partial class Computers : Page
         dialog.CloseButtonText = "Cancel";
         dialog.DefaultButton = ContentDialogButton.Primary;
         dialog.Content = new AddPCDialog();
-
-        var result = await dialog.ShowAsync();
+        _ = await dialog.ShowAsync();
     }
 
     private async void OpenFileButton(object sender, RoutedEventArgs e)
