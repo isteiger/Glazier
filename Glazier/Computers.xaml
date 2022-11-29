@@ -14,12 +14,8 @@
         
         <StackPanel Orientation="Vertical">
             <StackPanel Spacing="0" Margin="0,0,0,10">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <CommandBar IsOpen="False" DefaultLabelPosition="Right" Padding="28,14,28,0" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Grid.Column="0">
+                <Grid Padding="0,0,20,0" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                    <CommandBar IsOpen="False" DefaultLabelPosition="Right" Padding="28,14,28,0" Background="{ThemeResource SolidBackgroundFillColorTransparent}" Grid.Column="0">
                     <CommandBar.Content>
                         <Grid >
                             <Grid.RowDefinitions>
@@ -49,7 +45,6 @@
                         </AppBarButton>
                     </CommandBar.SecondaryCommands>
                 </CommandBar>
-                    <Grid Width="10" />
                 </Grid>
                 <ProgressBar IsIndeterminate="True" ShowPaused="False" ShowError="False" Margin="0,0,0,0" Visibility="Collapsed" x:Name="loadingBar"/>
             </StackPanel>
