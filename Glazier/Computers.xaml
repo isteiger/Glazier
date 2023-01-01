@@ -93,7 +93,7 @@
                                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE950;"/>
                                     </AppBarButton.Icon>
                                 </AppBarButton>
-                                <AppBarButton  Label="Remote">
+                                <AppBarButton  Label="Remote" Click="RemoteDesktopClick"  Tag="{x:Bind HostName}">
                                     <AppBarButton.Icon>
                                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8af;"/>
                                     </AppBarButton.Icon>

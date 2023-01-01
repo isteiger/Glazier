@@ -14,12 +14,77 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Settings" />
                 </StackPanel>
-                <ComboBox Header="Change online check method" PlaceholderText="Method" Width="200">
-                    <x:String>Ping</x:String>
-                    <x:String>Other1</x:String>
 
-                </ComboBox>
-                <CheckBox Content="Show Computer Backgrounds" />
+
+
+                <Grid HorizontalAlignment="Stretch" Height="80" CornerRadius="8"
+                    BorderThickness="1"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"  Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" Margin="10,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Grid Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center">
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE774;"/>
+
+                        </Grid>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Online Check Method" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center"/>
+                                <TextBlock Style="{StaticResource CaptionTextBlockStyle}">
+                                Change the method to contact the device to make sure it is online.
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,10,0">
+                        <ComboBox PlaceholderText="Method" Width="200">
+                            <x:String>Ping</x:String>
+                            <x:String>Other1</x:String>
+
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+
+
+                <Grid HorizontalAlignment="Stretch" Height="80" CornerRadius="8"
+                    BorderThickness="1"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"  Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" Margin="10,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center">
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE7F4;"/>
+
+                        </Grid>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Show Computer Background" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource CaptionTextBlockStyle}">
+                                Show the remote computer's background
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Center"  Margin="0,0,10,0" HorizontalAlignment="Right">
+                        <ToggleSwitch OnContent="" OffContent=""/>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
         </StackPanel>
     </Grid>
