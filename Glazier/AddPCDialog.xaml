@@ -5,12 +5,11 @@
 
     <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <!-- Content body -->
-        <TextBlock Text="Lorem ipsum dolor sit amet, adipisicing elit." TextWrapping="Wrap" />
-        <TextBox Header="Display Name" PlaceholderText="Display Name" />
-        <TextBox Header="Hostname" PlaceholderText="Hostname" />
-        <TextBox Header="Username" PlaceholderText="Username" />
-        <TextBox Header="Password" PlaceholderText="Password" />
-        <TextBox Header="MAC Address" PlaceholderText="MAC Address" />
+        <TextBox Header="Display Name (Optional)" PlaceholderText="Display Name" Margin="0,10"/>
+        <TextBox Header="MAC Address" PlaceholderText="MAC Address" Margin="0,10"/>
+        <TextBox Header="Hostname" PlaceholderText="Hostname" Margin="0,10"/>
+        <TextBox Header="Username" PlaceholderText="Username" Margin="0,10"/>
+        <PasswordBox Header="Password" PlaceholderText="Password" Margin="0,10"/>
     </StackPanel>
 
 </Page>

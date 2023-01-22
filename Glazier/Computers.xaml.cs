@@ -82,56 +82,6 @@ public sealed partial class Computers : Page
 
             //https://stackoverflow.com/questions/6781192/how-do-i-update-a-single-item-in-an-observablecollection-class
 
-            void OnlineCheck(Computer pc, Bitmap defaultBmp) {
-                // use ping to check if online. if ping fails, it errors out which is why this is in a try catch
-                try
-                {
-                    Ping ping = new Ping();
-                    PingReply pingReply = ping.Send(pc.HostName);
-                    
-                    // if succeed, set online
-                    if (pingReply.Status == IPStatus.Success) {
-                        pc.Online = true;
-                    }
-                } catch{
-                    // errored out, so must be offline
-                    pc.Online = false;
-                }
-                
-                // set parameters for online & offline 
-                if (pc.Online) {
-                    System.Diagnostics.Debug.WriteLine("pc online");
-                    var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\Color\\" + pc.Uuid + ".jpg";
-                    if (File.Exists(imgPath)) {
-                        pc.Background = imgPath;
-                    } else {
-                        pc.Background = "C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg";
-                        //pc.Background = new BitmapImage(new Uri("C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg"));
-                    }
-                        pc.IconColor = "LightGreen";
-                } else {
-                    System.Diagnostics.Debug.WriteLine("pc offline");
-                    pc.Loading = false;
-                    pc.DisplayName = "testing";
-                    System.Diagnostics.Debug.WriteLine(pc.Loading);
-                    var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\BW\\" + pc.Uuid + ".jpg";
-                    if (File.Exists(imgPath)) {
-                        pc.Background = imgPath;
-                    } else {
-                        var bmp = MakeGrayscale3(defaultBmp);
-                        using var stream = File.Create(imgPath);
-
-                        bmp.Save(stream, ImageFormat.Jpeg);
-                        pc.Background = imgPath;
-                    }
-
-                }
-                pc.Loading = false;
-                //dispatcherQueue.TryEnqueue(() => { Bindings.Update(); });
-
-
-            }
-
             // for each computer in the json file
             foreach (var puter in o["computers"]) {
 
@@ -243,5 +193,69 @@ public sealed partial class Computers : Page
         udpClient.Send(dgram, dgram.Length, new System.Net.IPEndPoint(IPAddress.Broadcast, 0));
         udpClient.Close();
     }
+
+    void OnlineCheck(Computer pc, Bitmap defaultBmp)
+    {
+        // use ping to check if online. if ping fails, it errors out which is why this is in a try catch
+        try
+        {
+            Ping ping = new Ping();
+            PingReply pingReply = ping.Send(pc.HostName);
+
+            // if succeed, set online
+            if (pingReply.Status == IPStatus.Success)
+            {
+                pc.Online = true;
+            }
+        }
+        catch
+        {
+            // errored out, so must be offline
+            pc.Online = false;
+        }
+
+        // set parameters for online & offline 
+        if (pc.Online)
+        {
+            System.Diagnostics.Debug.WriteLine("pc online");
+            var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\Color\\" + pc.Uuid + ".jpg";
+            if (File.Exists(imgPath))
+            {
+                pc.Background = imgPath;
+            }
+            else
+            {
+                pc.Background = "C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg";
+                //pc.Background = new BitmapImage(new Uri("C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg"));
+            }
+            pc.IconColor = "LightGreen";
+        }
+        else
+        {
+            System.Diagnostics.Debug.WriteLine("pc offline");
+            pc.Loading = false;
+            pc.DisplayName = "testing";
+            System.Diagnostics.Debug.WriteLine(pc.Loading);
+            var imgPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\ImageCache\\Backgrounds\\BW\\" + pc.Uuid + ".jpg";
+            if (File.Exists(imgPath))
+            {
+                pc.Background = imgPath;
+            }
+            else
+            {
+                var bmp = MakeGrayscale3(defaultBmp);
+                using var stream = File.Create(imgPath);
+
+                bmp.Save(stream, ImageFormat.Jpeg);
+                pc.Background = imgPath;
+            }
+
+        }
+        pc.Loading = false;
+        //dispatcherQueue.TryEnqueue(() => { Bindings.Update(); });
+
+
+    }
+
 
 }
