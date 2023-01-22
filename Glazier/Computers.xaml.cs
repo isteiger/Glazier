@@ -22,6 +22,7 @@ using System.Net;
 using Microsoft.UI.Dispatching;
 using System.ComponentModel;
 using Microsoft.UI.Xaml.Data;
+using System.Diagnostics;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -162,6 +163,18 @@ public sealed partial class Computers : Page
                         0, 0, original.Width, original.Height, GraphicsUnit.Pixel, attributes);
         }
         return newBitmap;
+    }
+    void RemoteDesktopClick(object sender, RoutedEventArgs e)
+    {
+        // todo: get log in info from config json
+        var hostname = (string)((Button)sender).Tag;
+        var process = new System.Diagnostics.Process();
+        process.StartInfo = new ProcessStartInfo
+        {
+            FileName = "mstsc",
+            Arguments = "/v:" + hostname,
+        };
+        process.Start();
     }
     void PowerOnClick(object sender, RoutedEventArgs e) {
         var macaddress = (string)((Button)sender).Tag;
