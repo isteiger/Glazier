@@ -38,12 +38,13 @@
                         </AppBarButton.Icon>
                     </AppBarButton>
                     <CommandBar.SecondaryCommands >
-                        <AppBarButton Icon="Setting" Label="Settings">
-                            <AppBarButton.KeyboardAccelerators>
-                                <KeyboardAccelerator Modifiers="Control" Key="I" />
-                            </AppBarButton.KeyboardAccelerators>
-                        </AppBarButton>
-                    </CommandBar.SecondaryCommands>
+                            <AppBarButton Icon="OpenFile" Label="Open File">
+                                <AppBarButton.KeyboardAccelerators>
+                                    <KeyboardAccelerator Modifiers="Control" Key="O" />
+                                </AppBarButton.KeyboardAccelerators>
+                            </AppBarButton>
+
+                        </CommandBar.SecondaryCommands>
                 </CommandBar>
                 </Grid>
                 <ProgressBar IsIndeterminate="True" ShowPaused="False" ShowError="False" Margin="0,0,0,0" Visibility="Collapsed" x:Name="loadingBar"/>

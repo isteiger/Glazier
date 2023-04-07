@@ -41,10 +41,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221116.1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230118.102" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-	  <PackageReference Include="WinUIEx" Version="1.8.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+	  <PackageReference Include="WinUIEx" Version="2.1.0" />
 	  <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
 	  <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
@@ -87,4 +87,13 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
+		<LayoutDir>C:\Users\iansteiger\LocalDoc\GlazierBuild\bin\arm64\Debug\net6.0\AppX</LayoutDir>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+		<LayoutDir>C:\Users\iansteiger\LocalDoc\GlazierBuild\bin\x64\Debug\net6.0\AppX</LayoutDir>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+		<LayoutDir>C:\Users\iansteiger\LocalDoc\GlazierBuild\bin\x86\Debug\net6.0\AppX</LayoutDir>
+	</PropertyGroup>
 </Project>
