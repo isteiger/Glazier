@@ -41,7 +41,11 @@
   </ItemGroup>
 
   <ItemGroup>
+<<<<<<< Updated upstream
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230118.102" />
+=======
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
+>>>>>>> Stashed changes
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
 	  <PackageReference Include="WinUIEx" Version="2.1.0" />
