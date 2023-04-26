@@ -87,13 +87,4 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
-		<LayoutDir>C:\Users\iansteiger\LocalDoc\GlazierBuild\bin\arm64\Debug\net6.0\AppX</LayoutDir>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-		<LayoutDir>C:\Users\iansteiger\LocalDoc\GlazierBuild\bin\x64\Debug\net6.0\AppX</LayoutDir>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-		<LayoutDir>C:\Users\iansteiger\LocalDoc\GlazierBuild\bin\x86\Debug\net6.0\AppX</LayoutDir>
-	</PropertyGroup>
 </Project>
